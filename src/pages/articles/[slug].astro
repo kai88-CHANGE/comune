@@ -1,0 +1,106 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { useTranslations } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  const all = await getCollection('articles');
+  return all.filter(a => a.data.lang === 'ja').map(article => ({
+    params: { slug: article.id.replace('ja/', '') },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const lang = 'ja';
+const t = useTranslations(lang);
+---
+
+<Layout title={article.data.title} description={article.data.summary} lang={lang}>
+  <div class="max-w-3xl mx-auto px-6 py-14">
+
+    <!-- ヘッダー -->
+    <header class="mb-12">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="serif text-6xl font-bold text-[var(--rule)] leading-none">
+          {String(article.data.issue).padStart(2, '0')}
+        </span>
+        <div class="flex-1 border-t-2 border-[var(--ink)]"></div>
+      </div>
+      <div class="flex items-center gap-3 text-xs text-[var(--muted)] mb-4">
+        <a href={`/articles?category=${encodeURIComponent(article.data.category)}`}
+           class="hover:text-[var(--ink)] transition-colors">
+          {article.data.category}
+        </a>
+        <span>·</span>
+        <time datetime={article.data.date.toISOString()}>
+          {article.data.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <span>·</span>
+        <span>{article.data.author}</span>
+      </div>
+      <h1 class="serif text-2xl sm:text-3xl font-bold leading-snug mb-4">{article.data.title}</h1>
+      <p class="text-sm text-[var(--muted)] leading-relaxed border-l-2 border-[var(--rule)] pl-4">{article.data.summary}</p>
+    </header>
+
+    <!-- 構成ガイド -->
+    <div class="mb-10 flex gap-4 text-xs text-[var(--muted)] flex-wrap">
+      <span class="tracking-wider uppercase">{t('article.structure')}:</span>
+      {(t('article.sections') as unknown as string[]).map((s: string, i: number) => (
+        <span><span class="text-[var(--accent)] font-medium">{i + 1}.</span> {s}</span>
+      ))}
+    </div>
+
+    <hr class="border-[var(--rule)] mb-10" />
+
+    <!-- 本文 -->
+    <div class="article-body">
+      <Content />
+    </div>
+
+    <!-- フッター -->
+    <footer class="mt-14 pt-8 border-t-2 border-[var(--ink)]">
+      {article.data.tags.length > 0 && (
+        <div class="flex gap-2 flex-wrap mb-6">
+          {article.data.tags.map((tag: string) => (
+            <span class="text-xs border border-[var(--rule)] px-2 py-0.5 text-[var(--muted)]">{tag}</span>
+          ))}
+        </div>
+      )}
+      <a href="/articles" class="text-sm text-[var(--muted)] hover:text-[var(--ink)] transition-colors">{t('articles.back')}</a>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .article-body :global(h2) {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+    border-left: 3px solid var(--ink);
+  }
+  .article-body :global(p) {
+    margin-bottom: 1.2rem;
+    line-height: 1.95;
+    font-size: 0.95rem;
+  }
+  .article-body :global(strong) {
+    font-weight: 700;
+  }
+  .article-body :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    margin: 1.5rem 0;
+    padding: 0.5rem 1rem;
+    color: var(--muted);
+  }
+  .article-body :global(ul), .article-body :global(ol) {
+    margin: 1rem 0 1.5rem 1.5rem;
+    font-size: 0.95rem;
+  }
+  .article-body :global(li) { margin-bottom: 0.4rem; line-height: 1.8; }
+</style>

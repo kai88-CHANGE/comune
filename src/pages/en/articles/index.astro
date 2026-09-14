@@ -1,0 +1,67 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations, getLocalePath } from '../../../i18n/ui';
+
+const lang = 'en';
+const t = useTranslations(lang);
+
+const all = await getCollection('articles');
+const allArticles = all.filter(a => a.data.lang === 'en').sort((a, b) => b.data.issue - a.data.issue);
+
+const categoryFilter = Astro.url.searchParams.get('category') ?? '';
+const articles = categoryFilter ? allArticles.filter(a => a.data.category === categoryFilter) : allArticles;
+const categories = [
+  { key: 'student-council', label: t('cat.seitokai') },
+  { key: 'school-education', label: t('cat.kyoiku') },
+  { key: 'self-governance', label: t('cat.jichi') },
+];
+---
+
+<Layout title={t('nav.articles')} lang={lang}>
+  <div class="max-w-4xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-10">
+      <h2 class="serif text-2xl font-bold">{t('nav.articles')}</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+
+    <div class="flex gap-2 flex-wrap mb-10">
+      <a href={getLocalePath(lang, '/articles')}
+         class={`text-xs px-3 py-1.5 border transition-colors ${!categoryFilter ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]' : 'border-[var(--rule)] text-[var(--muted)] hover:border-[var(--ink)]'}`}>
+        {t('articles.all')}
+      </a>
+      {categories.map(cat => (
+        <a href={getLocalePath(lang, `/articles?category=${encodeURIComponent(cat.key)}`)}
+           class={`text-xs px-3 py-1.5 border transition-colors ${categoryFilter === cat.key ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]' : 'border-[var(--rule)] text-[var(--muted)] hover:border-[var(--ink)]'}`}>
+          {cat.label}
+        </a>
+      ))}
+    </div>
+
+    <div>
+      {articles.map((article) => (
+        <article class="border-b border-[var(--rule)] py-7 grid grid-cols-[3rem_1fr] gap-4">
+          <div class="serif text-2xl font-bold text-[var(--rule)] leading-none pt-1">
+            {String(article.data.issue).padStart(2, '0')}
+          </div>
+          <div>
+            <div class="flex items-center gap-3 text-xs text-[var(--muted)] mb-2">
+              <span>{article.data.category}</span>
+              <span>·</span>
+              <time datetime={article.data.date.toISOString()}>
+                {article.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </div>
+            <h3 class="serif text-lg font-medium leading-snug mb-2">
+              <a href={getLocalePath(lang, `/articles/${article.id.replace('en/', '')}`)} class="hover:text-[var(--accent)] transition-colors">
+                {article.data.title}
+              </a>
+            </h3>
+            <p class="text-sm text-[var(--muted)]">{article.data.summary}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,50 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations, getLocalePath } from '../../../i18n/ui';
+
+const lang = 'en';
+const t = useTranslations(lang);
+
+const all = await getCollection('newspaper');
+const issues = all
+  .filter(n => n.data.lang === 'en')
+  .sort((a, b) => b.data.issue - a.data.issue);
+---
+
+<Layout title={t('newspaper.title')} lang={lang}>
+  <div class="max-w-4xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-4">
+      <h2 class="serif text-2xl font-bold">{t('newspaper.title')}</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+    <p class="text-sm text-[var(--muted)] mb-12">{t('newspaper.desc')}</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {issues.map((issue) => (
+        <a href={getLocalePath(lang, `/newspaper/${issue.id.replace('en/', '')}`)}
+           class="group border border-[var(--rule)] hover:border-[var(--ink)] transition-colors block">
+          <div class="border-b-2 border-[var(--ink)] p-4 bg-[color-mix(in_srgb,var(--ink)_3%,transparent)]">
+            <p class="text-[9px] tracking-[0.3em] text-[var(--muted)] uppercase mb-1">{t('newspaper.title')}</p>
+            <p class="serif text-2xl font-bold tracking-wider leading-none">
+              {t('newspaper.issue')}{issue.data.issue}{t('newspaper.issueUnit')}
+            </p>
+            <p class="text-[10px] text-[var(--muted)] mt-1">
+              {issue.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {issue.data.pages && ` · ${issue.data.pages} ${t('newspaper.pages')}`}
+            </p>
+          </div>
+          <div class="p-4">
+            <h3 class="serif text-base font-bold mb-2 group-hover:text-[var(--accent)] transition-colors">
+              {issue.data.title}
+            </h3>
+            <p class="text-xs text-[var(--muted)] leading-relaxed">{issue.data.description}</p>
+            <p class="text-xs text-[var(--accent)] mt-3">{t('newspaper.view')} →</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</Layout>

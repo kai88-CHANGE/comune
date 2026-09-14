@@ -1,0 +1,100 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { useTranslations } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  const all = await getCollection('newspaper');
+  return all.filter(n => n.data.lang === 'ja').map(issue => ({
+    params: { slug: issue.id.replace('ja/', '') },
+    props: { issue },
+  }));
+}
+
+const { issue } = Astro.props;
+const { Content } = await render(issue);
+const lang = 'ja';
+const t = useTranslations(lang);
+---
+
+<Layout title={issue.data.title} description={issue.data.description} lang={lang}>
+  <div class="max-w-5xl mx-auto px-6 py-14">
+
+    <!-- ヘッダー -->
+    <header class="mb-10">
+      <div class="flex items-center gap-4 mb-5">
+        <div class="serif text-6xl font-bold text-[var(--rule)] leading-none">
+          {String(issue.data.issue).padStart(2, '0')}
+        </div>
+        <div class="flex-1 border-t-2 border-[var(--ink)]"></div>
+      </div>
+      <div class="flex items-center gap-3 text-xs text-[var(--muted)] mb-3">
+        <time datetime={issue.data.date.toISOString()}>
+          {issue.data.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {issue.data.pages && <><span>·</span><span>{issue.data.pages}{t('newspaper.pages')}</span></>}
+      </div>
+      <h1 class="serif text-2xl sm:text-3xl font-bold mb-3">{issue.data.title}</h1>
+      <p class="text-sm text-[var(--muted)] border-l-2 border-[var(--rule)] pl-4">{issue.data.description}</p>
+    </header>
+
+    <!-- PDF ビューア -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs text-[var(--muted)] uppercase tracking-wider">{t('newspaper.embed.label')}</p>
+        <a
+          href={issue.data.pdf}
+          download
+          class="text-xs border border-[var(--rule)] px-3 py-1.5 text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+        >
+          {t('newspaper.download')} ↓
+        </a>
+      </div>
+
+      <!-- PDF iframe -->
+      <div class="border border-[var(--rule)] bg-neutral-100" style="height: 80vh; min-height: 500px;">
+        <iframe
+          src={issue.data.pdf}
+          title={issue.data.title}
+          class="w-full h-full"
+          style="border: none;"
+        >
+          <div class="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
+            <p class="text-sm text-[var(--muted)]">{t('newspaper.noFile')}</p>
+            <a
+              href={issue.data.pdf}
+              class="text-sm text-[var(--accent)] border border-[var(--accent)] px-4 py-2 hover:bg-[var(--accent)] hover:text-white transition-colors"
+            >
+              {t('newspaper.view')}
+            </a>
+          </div>
+        </iframe>
+      </div>
+
+      <!-- PDF が存在しない場合のフォールバック UI -->
+      <noscript>
+        <p class="text-xs text-[var(--muted)] mt-2 text-center">
+          <a href={issue.data.pdf} class="underline">{t('newspaper.view')}</a>
+        </p>
+      </noscript>
+    </div>
+
+    <!-- 目次・概要（Markdownから） -->
+    <div class="border-t border-[var(--rule)] pt-8 max-w-2xl">
+      <p class="text-xs text-[var(--muted)] uppercase tracking-wider mb-4">Contents</p>
+      <div class="article-body text-sm">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="mt-12 pt-6 border-t-2 border-[var(--ink)]">
+      <a href="/newspaper" class="text-sm text-[var(--muted)] hover:text-[var(--ink)] transition-colors">{t('newspaper.back')}</a>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .article-body :global(ul) { list-style: disc; margin-left: 1.5rem; }
+  .article-body :global(li) { margin-bottom: 0.3rem; line-height: 1.7; }
+  .article-body :global(p) { margin-bottom: 0.8rem; }
+</style>

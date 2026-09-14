@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations } from '../../i18n/ui';
+
+const lang = 'en';
+const t = useTranslations(lang);
+---
+
+<Layout title={t('about.title')} lang={lang}>
+  <div class="max-w-2xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="serif text-2xl font-bold">{t('about.title')}</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+
+    <div class="space-y-10 text-sm leading-loose">
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">What is Comune?</h3>
+        <p>
+          <em>Comune</em> is the Italian word for "municipality" or "community." The name reflects this journal's commitment to asking what school communities should actually look like — and what it would mean for students to genuinely govern themselves within them.
+        </p>
+        <p class="mt-3">
+          This is not a whistleblower publication. Specific experiences serve as case studies; the conclusions aim to be general. The question is not "what went wrong here" but "what should the rule be everywhere."
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">What we see as the problem</h3>
+        <p>
+          In most Japanese schools, student councils carry the name of self-governance while operating under the effective authority of administration approval. Proposal review, budget execution, election eligibility, free expression — in each domain, the boundary between student authority and school authority remains unwritten, and therefore subject to arbitrary exercise.
+        </p>
+        <p class="mt-3">
+          Ambiguity is the structure of arbitrary power.
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">How we draw the line</h3>
+        <p>
+          The core question this journal applies to each issue: <strong>Is this restriction grounded in students' developmental limitations — or in administrative convenience?</strong>
+        </p>
+        <p class="mt-3">
+          The former has some legitimate basis. The latter does not. That is where the line is.
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">What change we aim for</h3>
+        <p>
+          If someone reads an article here and goes back to read their school's student council bylaws — that is a change. If they find language worth questioning and form the words to question it — that is a change. If a counterargument reaches us and becomes the basis of the next article — the journal is working.
+        </p>
+        <p class="mt-3">
+          The journal does not make change. Readers do.
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">Editorial policy</h3>
+        <ul class="list-none space-y-2">
+          <li>Articles are published under the author's name</li>
+          <li>Schools and individuals criticized are anonymized</li>
+          <li>Named criticism, where necessary, is justified within the article</li>
+          <li>Counterarguments and dissent are welcomed and may be addressed in future issues</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</Layout>

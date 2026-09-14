@@ -1,0 +1,111 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, getLocalePath } from '../../i18n/ui';
+
+const lang = 'en';
+const t = useTranslations(lang);
+
+const issues = [
+  {
+    id: 'approval',
+    topic: 'Proposal Review & Approval Authority',
+    status: 'Schools typically require pre-approval. Rejection criteria are rarely made explicit.',
+    position: 'The school should not hold veto power unless a proposal violates explicitly stated rules.',
+    axis: { x: 30, y: 25 },
+    articles: ['founding'],
+  },
+  {
+    id: 'eligibility',
+    topic: 'Candidate Eligibility Requirements',
+    status: 'Many schools require candidates to meet grade or conduct standards.',
+    position: 'Grade- or conduct-based restrictions lack justification.',
+    axis: { x: 20, y: 60 },
+    articles: ['eligibility'],
+  },
+  {
+    id: 'speech',
+    topic: 'Free Expression — Criticism of the School',
+    status: 'Student criticism of the school can be subject to administrative "guidance."',
+    position: 'Institutional critique is, as a general principle, protected expression.',
+    axis: { x: 65, y: 40 },
+    articles: ['speech'],
+  },
+  {
+    id: 'budget',
+    topic: 'Budget Allocation Authority',
+    status: 'Student council budgets typically require school approval for spending.',
+    position: 'Below a threshold amount, spending should be executable by council vote alone.',
+    axis: { x: 50, y: 70 },
+    articles: [],
+  },
+  {
+    id: 'rules',
+    topic: 'Authority to Revise School Rules',
+    status: 'Schools decide on rules; student councils can propose but not decide.',
+    position: 'Student councils should hold co-decision rights on rule changes affecting students.',
+    axis: { x: 75, y: 20 },
+    articles: [],
+  },
+];
+---
+
+<Layout title={t('issues.title')} lang={lang}>
+  <div class="max-w-4xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-4">
+      <h2 class="serif text-2xl font-bold">{t('issues.title')}</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+    <p class="text-sm text-[var(--muted)] mb-12">{t('issues.desc')}</p>
+
+    <!-- Visual map -->
+    <div class="border border-[var(--rule)] mb-14 relative" style="height: 320px; background: repeating-linear-gradient(0deg, transparent, transparent 39px, var(--rule) 39px, var(--rule) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, var(--rule) 39px, var(--rule) 40px); background-color: color-mix(in srgb, var(--paper) 98%, var(--ink));">
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-[9px] text-[var(--muted)] tracking-widest uppercase">Institutional authority (low → high)</div>
+      <div class="absolute left-2 top-1/2 -translate-y-1/2 text-[9px] text-[var(--muted)] tracking-widest uppercase" style="writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg);">Urgency (low → high)</div>
+
+      {issues.map((issue) => (
+        <a href={`#${issue.id}`} class="absolute group" style={`left: ${issue.axis.x}%; top: ${issue.axis.y}%; transform: translate(-50%, -50%)`}>
+          <div class={`w-3 h-3 rounded-full border-2 transition-all group-hover:scale-150 ${issue.articles.length > 0 ? 'bg-[var(--accent)] border-[var(--accent)]' : 'bg-[var(--paper)] border-[var(--ink)]'}`}></div>
+          <span class="absolute left-4 top-0 text-[10px] whitespace-nowrap text-[var(--ink)] font-medium hidden group-hover:block bg-[var(--paper)] px-1 border border-[var(--rule)]">
+            {issue.topic}
+          </span>
+        </a>
+      ))}
+    </div>
+    <div class="flex gap-4 text-xs text-[var(--muted)] mb-14">
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[var(--accent)] inline-block"></span>Article published</span>
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full border-2 border-[var(--ink)] inline-block"></span>Forthcoming</span>
+    </div>
+
+    <div class="space-y-0">
+      {issues.map((issue) => (
+        <div id={issue.id} class="border-b border-[var(--rule)] py-8 grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-x-8 gap-y-3">
+          <div>
+            <h3 class="serif text-base font-bold mb-3">{issue.topic}</h3>
+            <p class="text-xs text-[var(--muted)] uppercase tracking-wider mb-1">{t('issues.current')}</p>
+            <p class="text-sm leading-relaxed">{issue.status}</p>
+          </div>
+          <div>
+            <p class="text-xs text-[var(--muted)] uppercase tracking-wider mb-1 sm:mt-7">{t('issues.position')}</p>
+            <p class="text-sm leading-relaxed mb-3">{issue.position}</p>
+            {issue.articles.length > 0 && (
+              <div>
+                <p class="text-xs text-[var(--muted)] mb-1">{t('issues.related')}</p>
+                <div class="flex flex-wrap gap-2">
+                  {issue.articles.map((slug: string) => (
+                    <a href={getLocalePath(lang, `/articles/${slug}`)}
+                       class="text-xs text-[var(--accent)] border border-[var(--rule)] px-2 py-0.5 hover:border-[var(--accent)] transition-colors">
+                      {t('issues.read')}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-xs text-[var(--muted)] mt-10">{t('issues.note')}</p>
+  </div>
+</Layout>

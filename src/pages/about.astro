@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/ui';
+
+const lang = 'ja';
+const t = useTranslations(lang);
+---
+
+<Layout title={t('about.title')} lang={lang}>
+  <div class="max-w-2xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="serif text-2xl font-bold">{t('about.title')}</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+
+    <div class="space-y-10 text-sm leading-loose">
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">コムーネとは</h3>
+        <p>
+          コムーネ（Comune）はイタリア語で「自治体」「共同体」を意味する。学校という共同体が本来どうあるべきかを問い続けるという意志から、この名をとった。
+        </p>
+        <p class="mt-3">
+          この媒体は内部告発を目的としない。個別の実体験は「ケーススタディ」として用いるが、結論は一般化する。問いは「ここで何が起きたか」ではなく「ルールはどうあるべきか」だ。
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">何を問題だと考えているか</h3>
+        <p>
+          日本の多くの学校において、生徒会は「自治」の名を持ちながら、実質的に学校側の承認を前提とした活動しかできない。企画の審査、予算の執行、選挙の資格、言論の自由――いずれも、生徒の権限と学校の権限の境界が明文化されていない。
+        </p>
+        <p class="mt-3">
+          不明確さは、恣意的な権力行使の温床になる。
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">どういう基準で「認める／認めない」を判断するか</h3>
+        <p>
+          この媒体が各論点に適用する問いは一つだ。<strong>「その制限は、生徒の自治能力の欠如を根拠とするか、それとも学校の都合を根拠とするか」</strong>。
+        </p>
+        <p class="mt-3">
+          前者には一定の合理性がある。後者には正当性がない。境界線はそこにある。
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">この媒体が目指す変化</h3>
+        <p>
+          記事を読んだ誰かが、自分の学校の生徒会規約を読み直すこと。制度の根拠を問う言葉を持つこと。反論がこちらに届いて、次の記事の素材になること。そのとき、この媒体は機能している。
+        </p>
+        <p class="mt-3">
+          媒体が変化を起こすのではない。読んだ人間が変化を起こす。
+        </p>
+      </section>
+
+      <section>
+        <h3 class="serif text-lg font-bold mb-3">編集方針</h3>
+        <ul class="list-none space-y-2">
+          <li>記事は記名で発表する</li>
+          <li>批判対象となる学校・個人は匿名化する</li>
+          <li>実名批判が必要な場合は、その理由を記事内に明示する</li>
+          <li>反論・異論は歓迎する。次号で扱う可能性がある</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</Layout>

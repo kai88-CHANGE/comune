@@ -1,0 +1,116 @@
+---
+import '../styles/global.css';
+import { getLangFromUrl, useTranslations, getLocalePath, languages, type Lang } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: Lang;
+}
+
+const { title, description, lang: langProp } = Astro.props;
+const lang = langProp ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pageTitle = title ? `${title} — ${t('site.name')}` : t('site.name');
+const pageDesc = description ?? t('site.tagline');
+
+const siteUrl = 'https://comune.pages.dev';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = `${siteUrl}/og-image.png`; // public/og-image.png
+
+const otherLang = lang === 'ja' ? 'en' : 'ja';
+const currentPath = Astro.url.pathname;
+const otherPath = lang === 'ja'
+  ? `/en${currentPath}`
+  : currentPath.replace(/^\/en/, '') || '/';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={pageDesc} />
+    <title>{pageTitle}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" hreflang="ja" href={getLocalePath('ja', currentPath.replace(/^\/en/, '') || '/')} />
+    <link rel="alternate" hreflang="en" href={getLocalePath('en', currentPath.replace(/^\/en/, '') || '/')} />
+
+    <!-- OGP -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'en_US'} />
+    <meta property="og:site_name" content={t('site.name')} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    <meta name="twitter:image" content={ogImage} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+
+    <header>
+      <!-- マストヘッド -->
+      <div class="border-b-2 border-[var(--ink)]">
+        <div class="max-w-4xl mx-auto px-6 pt-8 pb-5">
+          <div class="flex items-end justify-between gap-4">
+            <a href={getLocalePath(lang, '/')} class="block group">
+              <p class="text-[10px] tracking-[0.3em] text-[var(--muted)] uppercase mb-1">{t('site.tagline')}</p>
+              <h1 class="serif text-4xl font-bold tracking-[0.15em] group-hover:text-[var(--accent)] transition-colors">
+                {t('site.name')}
+              </h1>
+            </a>
+            <!-- 言語切替 -->
+            <a
+              href={otherPath}
+              class="text-xs text-[var(--muted)] border border-[var(--rule)] px-3 py-1.5 hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors shrink-0"
+            >
+              {languages[otherLang]}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ナビ -->
+      <div class="border-b border-[var(--rule)] bg-[var(--paper)]">
+        <div class="max-w-4xl mx-auto px-6">
+          <nav class="flex gap-6 text-sm overflow-x-auto">
+            <a href={getLocalePath(lang, '/articles')}
+               class="py-3 border-b-2 border-transparent hover:border-[var(--ink)] transition-colors text-[var(--muted)] hover:text-[var(--ink)] whitespace-nowrap">
+              {t('nav.articles')}
+            </a>
+            <a href={getLocalePath(lang, '/newspaper')}
+               class="py-3 border-b-2 border-transparent hover:border-[var(--ink)] transition-colors text-[var(--muted)] hover:text-[var(--ink)] whitespace-nowrap">
+              {t('nav.newspaper')}
+            </a>
+            <a href={getLocalePath(lang, '/issues')}
+               class="py-3 border-b-2 border-transparent hover:border-[var(--ink)] transition-colors text-[var(--muted)] hover:text-[var(--ink)] whitespace-nowrap">
+              {t('nav.issues')}
+            </a>
+            <a href={getLocalePath(lang, '/about')}
+               class="py-3 border-b-2 border-transparent hover:border-[var(--ink)] transition-colors text-[var(--muted)] hover:text-[var(--ink)] whitespace-nowrap">
+              {t('nav.about')}
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t-2 border-[var(--ink)] mt-24">
+      <div class="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <p class="serif text-xl font-bold tracking-[0.15em]">{t('site.name')}</p>
+        <p class="text-xs text-[var(--muted)] max-w-sm text-right">{t('site.tagline')}</p>
+      </div>
+    </footer>
+  </body>
+</html>
