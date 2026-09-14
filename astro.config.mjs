@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
-  site: 'https://comune.pages.dev',
+  site: 'https://comune-6eh.pages.dev',
   integrations: [sitemap()],
 
   i18n: {

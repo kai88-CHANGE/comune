@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://comune.pages.dev/sitemap-index.xml
+Sitemap: https://comune-6eh.pages.dev/sitemap-index.xml
