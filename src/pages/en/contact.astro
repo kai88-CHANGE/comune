@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Contact" lang="en">
+  <div class="max-w-2xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="serif text-2xl font-bold">Contact & Operator Information</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+
+    <!-- Operator info -->
+    <section class="mb-14">
+      <h3 class="serif text-lg font-bold mb-6 pb-2 border-b border-[var(--rule)]">Operator Information</h3>
+      <dl class="space-y-4 text-sm">
+        <div class="grid grid-cols-[9rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">Publication</dt>
+          <dd class="serif font-medium">Comune（コムーネ）</dd>
+        </div>
+        <div class="grid grid-cols-[9rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">Operator</dt>
+          <dd>
+            <span class="font-medium">Kai Sasaki</span>
+            <span class="text-[var(--muted)] ml-2 text-xs">佐々木快</span>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[9rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">Type</dt>
+          <dd class="text-[var(--muted)]">Independent / personal operation</dd>
+        </div>
+        <div class="grid grid-cols-[9rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">GitHub</dt>
+          <dd>
+            <a href="https://github.com/kai88-CHANGE/comune"
+               class="text-[var(--accent)] hover:underline text-xs" target="_blank" rel="noopener">
+              github.com/kai88-CHANGE/comune
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Contact -->
+    <section class="mb-14">
+      <h3 class="serif text-lg font-bold mb-6 pb-2 border-b border-[var(--rule)]">Contact</h3>
+      <p class="text-sm text-[var(--muted)] leading-relaxed mb-8">
+        For counterarguments, corrections, publication inquiries, or any other contact,
+        please reach out by email. Dissenting views are welcome and may be addressed in future issues.
+      </p>
+
+      <a
+        href="mailto:kai_26n1102416@nnn.ed.jp?subject=Comune — Inquiry"
+        class="inline-flex items-center gap-3 border-2 border-[var(--ink)] px-6 py-4 hover:bg-[var(--ink)] hover:text-[var(--paper)] transition-colors group"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        <span class="serif font-medium tracking-wide">kai_26n1102416@nnn.ed.jp</span>
+      </a>
+
+      <p class="text-xs text-[var(--muted)] mt-4">
+        Clicking will open your email client.
+      </p>
+    </section>
+
+    <!-- Guidelines -->
+    <section>
+      <h3 class="serif text-lg font-bold mb-6 pb-2 border-b border-[var(--rule)]">Guidelines for contact</h3>
+      <ul class="text-sm text-[var(--muted)] space-y-2 leading-relaxed">
+        <li>· When sending a counterargument, please specify which article or issue you are responding to</li>
+        <li>· For corrections, please include the relevant passage and your source</li>
+        <li>· Replies may take several days</li>
+        <li>· Counterarguments may be published in future issues, anonymized unless you request otherwise</li>
+      </ul>
+    </section>
+
+  </div>
+</Layout>

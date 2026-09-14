@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="お問い合わせ・運営者情報" lang="ja">
+  <div class="max-w-2xl mx-auto px-6 py-14">
+
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="serif text-2xl font-bold">お問い合わせ・運営者情報</h2>
+      <span class="flex-1 h-px bg-[var(--rule)]"></span>
+    </div>
+
+    <!-- 運営者情報 -->
+    <section class="mb-14">
+      <h3 class="serif text-lg font-bold mb-6 pb-2 border-b border-[var(--rule)]">運営者情報</h3>
+      <dl class="space-y-4 text-sm">
+        <div class="grid grid-cols-[8rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">媒体名</dt>
+          <dd class="serif font-medium">コムーネ（Comune）</dd>
+        </div>
+        <div class="grid grid-cols-[8rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">運営者</dt>
+          <dd>
+            <span class="font-medium">佐々木快</span>
+            <span class="text-[var(--muted)] ml-2 text-xs">Kai Sasaki</span>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[8rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">所属</dt>
+          <dd class="text-[var(--muted)]">個人運営</dd>
+        </div>
+        <div class="grid grid-cols-[8rem_1fr] gap-2">
+          <dt class="text-[var(--muted)]">GitHub</dt>
+          <dd>
+            <a href="https://github.com/kai88-CHANGE/comune"
+               class="text-[var(--accent)] hover:underline text-xs" target="_blank" rel="noopener">
+              github.com/kai88-CHANGE/comune
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- お問い合わせ -->
+    <section class="mb-14">
+      <h3 class="serif text-lg font-bold mb-6 pb-2 border-b border-[var(--rule)]">お問い合わせ</h3>
+      <p class="text-sm text-[var(--muted)] leading-relaxed mb-8">
+        記事への反論・異論、掲載依頼、誤りの指摘、その他お問い合わせはメールにてお送りください。
+        反論・異論は歓迎します。内容によっては次号の記事として扱う可能性があります。
+      </p>
+
+      <!-- メールボタン -->
+      <a
+        href="mailto:kai_26n1102416@nnn.ed.jp?subject=コムーネへのお問い合わせ"
+        class="inline-flex items-center gap-3 border-2 border-[var(--ink)] px-6 py-4 hover:bg-[var(--ink)] hover:text-[var(--paper)] transition-colors group"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        <span class="serif font-medium tracking-wide">kai_26n1102416@nnn.ed.jp</span>
+      </a>
+
+      <p class="text-xs text-[var(--muted)] mt-4">
+        クリックするとメールアプリが開きます。
+      </p>
+    </section>
+
+    <!-- ガイドライン -->
+    <section>
+      <h3 class="serif text-lg font-bold mb-6 pb-2 border-b border-[var(--rule)]">お問い合わせの際のお願い</h3>
+      <ul class="text-sm text-[var(--muted)] space-y-2 leading-relaxed">
+        <li>· 記事への反論・異論はどこの論点についてか明記してください</li>
+        <li>· 誤りの指摘の場合は該当箇所と根拠を添えてください</li>
+        <li>· 返信まで数日かかる場合があります</li>
+        <li>· いただいた反論・異論は許可なく記事化することがあります（匿名処理のうえ）</li>
+      </ul>
+    </section>
+
+  </div>
+</Layout>
