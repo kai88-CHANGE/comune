@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations, getLocalePath } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title="404" lang={lang}>
+  <div class="max-w-3xl mx-auto px-6 py-24 text-center">
+    <p class="serif text-8xl font-bold text-[var(--rule)] mb-6">404</p>
+    <div class="h-px bg-[var(--ink)] w-16 mx-auto mb-8"></div>
+    <h1 class="serif text-xl font-medium mb-4">ページが見つかりません</h1>
+    <p class="text-sm text-[var(--muted)] mb-10">
+      このURLは存在しないか、移動した可能性があります。
+    </p>
+    <a href={getLocalePath(lang, '/')}
+       class="text-sm border border-[var(--ink)] px-6 py-3 hover:bg-[var(--ink)] hover:text-[var(--paper)] transition-colors">
+      トップに戻る
+    </a>
+  </div>
+</Layout>
