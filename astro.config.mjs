@@ -3,9 +3,12 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
   site: 'https://comune.pages.dev',
   integrations: [sitemap()],
+
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],
@@ -13,7 +16,10 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+
   vite: {
     plugins: [tailwindcss()],
   },
+
+  adapter: cloudflare(),
 });
